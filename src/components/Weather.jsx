@@ -37,8 +37,14 @@ function Weather() {
     return iconId
   }
 
-  if (!isLoaded) {
-    return <p>Loading...</p>
+  if (error) {
+    return <div>Error: {error.message}</div>
+  } else if (!isLoaded) {
+    return (
+      <div className='pr-4 pt-3 pb-16 pl-28 opacity-0'>
+        <p className='h-14'>Loading...</p>
+      </div>
+    )
   }
 
   return (

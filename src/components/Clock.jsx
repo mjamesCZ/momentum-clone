@@ -1,27 +1,8 @@
-import { useState, useEffect } from 'react'
 import { FiWatch, FiGlobe } from 'react-icons/fi'
+import ClockDisplay from './ClockDisplay'
 import Tooltip from './Tooltip'
 
 function Clock({ handleSwitch }) {
-  const [date, setDate] = useState(new Date())
-
-  function refreshClock() {
-    setDate(new Date())
-  }
-
-  useEffect(() => {
-    const timerId = setInterval(refreshClock, 1000)
-    return function cleanup() {
-      clearInterval(timerId)
-    }
-  }, [])
-
-  const currentTime = date.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  })
-
   return (
     <div className='group flex items-center'>
       <Tooltip
@@ -31,11 +12,7 @@ function Clock({ handleSwitch }) {
         <FiWatch size='1.5em' />
       </Tooltip>
 
-      <time
-        className='font-mukta font-bold text-[12rem] select-none px-4'
-        dateTime={currentTime}>
-        {currentTime}
-      </time>
+      <ClockDisplay />
 
       <Tooltip
         content="after:content-['world_clock']"

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Clock from './Clock'
+import Stopwatch from './Stopwatch'
+import WorldClock from './WorldClock'
 
 function Time() {
   const [currentElement, setCurrentElement] = useState('Clock')
@@ -26,7 +28,7 @@ function Time() {
         className={`transition-opacity duration-500 ${
           isInTransition && 'opacity-0'
         }`}>
-        <Clock handleSwitch={handleSwitch} />
+        <WorldClock handleSwitch={handleSwitch} />
       </div>
     )
   }
@@ -37,7 +39,7 @@ function Time() {
         className={`transition-opacity duration-500 ${
           isInTransition && 'opacity-0'
         }`}>
-        <Clock handleSwitch={handleSwitch} />
+        <Stopwatch handleSwitch={handleSwitch} />
       </div>
     )
   }
