@@ -1,37 +1,49 @@
-import useClock from '../hooks/useClock'
+import { useState, useEffect } from 'react'
+import { FiWatch, FiGlobe } from 'react-icons/fi'
+import Tooltip from './Tooltip'
 
-// const [clocks, setClocks] = useState([])
+function Clock({ handleSwitch }) {
+  const [date, setDate] = useState(new Date())
 
-// // restore stored clocks
-// useEffect(() => {
-//   const storedClocks = JSON.parse(localStorage.getItem('clocks'))
-//   setClocks(storedClocks)
-// }, [])
+  function refreshClock() {
+    setDate(new Date())
+  }
 
-// // update clocks in localStorage
-// useEffect(() => {
-//   localStorage.setItem('clocks', JSON.stringify(clocks))
-// }, [clocks])
+  useEffect(() => {
+    const timerId = setInterval(refreshClock, 1000)
+    return function cleanup() {
+      clearInterval(timerId)
+    }
+  }, [])
 
-// const addClock = (city) => {
-//   setClocks([city, ...clocks])
-// }
-
-// const removeClock = (id) => {
-//   setClocks(
-//     clocks.filter((city) => city.fields.geonameid !== parseInt(id, 10))
-//   )
-// }
-
-function Clock({ utcOffset }) {
-  const clock = useClock(utcOffset)
-
-  const currentTime = clock.toLocaleTimeString('en-GB')
+  const currentTime = date.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  })
 
   return (
-    <time className='font-mukta text-white text-[12rem]' dateTime={currentTime}>
-      {currentTime}
-    </time>
+    <div className='group flex items-center'>
+      <Tooltip
+        content="after:content-['stopwatch']"
+        position='left'
+        method={() => handleSwitch('Stopwatch')}>
+        <FiWatch size='1.5em' />
+      </Tooltip>
+
+      <time
+        className='font-mukta font-bold text-[12rem] select-none px-4'
+        dateTime={currentTime}>
+        {currentTime}
+      </time>
+
+      <Tooltip
+        content="after:content-['world_clock']"
+        position='right'
+        method={() => handleSwitch('Timezones')}>
+        <FiGlobe size='1.5em' />
+      </Tooltip>
+    </div>
   )
 }
 
